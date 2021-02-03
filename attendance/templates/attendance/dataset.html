@@ -1,0 +1,36 @@
+{% extends 'face_detection.html' %}
+{% block title %} Dataset {% endblock %}
+{% block content %}
+{% if user.is_superuser %}
+    <h1 align="center">Create Dataset</h1>
+    <p id="message" align="right">{{message}}</p>
+    <hr />
+    <div style="text-align: center;">
+    <button class="btn1 col-sm-5 col-lg-3 mb-1 btn btn-primary">Add Faces</button>
+    <button class="btn2 col-sm-5 col-lg-3 mb-1 btn btn-success">Train Faces</button>
+    </div>
+    <hr />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.btn1').click(function () {
+            $.ajax({
+                    type: "GET",
+                    url: "{% url 'make_dataset' %}",
+                    success: function (data) {
+                        $('#message').text(data);
+                    }
+                });
+            })
+        $('.btn2').click(function () {
+            $('#message').text("Training Faces Please Wait");
+            $.ajax({
+                    type: "GET",
+                    url: "{% url 'train_dataset' %}",
+                    success: function (data) {
+                        $('#message').text(data);
+                    }
+                });
+            })
+    </script>
+{%endif%}
+{% endblock %}

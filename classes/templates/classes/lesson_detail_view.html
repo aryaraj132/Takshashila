@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% block title %} {{Lesson.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    video{
+        width: 100%;
+    }
+</style>
+<h2 align='center'>Lesson Name : {{Lesson.name}}</h2>
+<video controls>
+    <source src="{{Lesson.video.url}}"  type="video/mp4">
+</video>
+    <div class="card-views row">
+        <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
+            <div class="card-body">
+                <h5 class="card-title mb-5">Download Video</h5>
+                {% if Lesson.video %}
+                      <a href="{{Lesson.video.url}}" download>
+                      <button type="button" class="btn btn-success"><span>Get Files</span></button>
+                      </a>
+                {% else %}
+                      <p class="card-text">Notes not available</p>
+                {%endif%}
+            </div>
+        </div>
+        <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
+            <div class="card-body">
+                <h5 class="card-title mb-5">Download Notes</h5>
+                {% if Lesson.notes %}
+                      <a href="{{Lesson.notes.url}}" download>
+                      <button type="button" class="btn btn-success"><span>Get Files</span></button>
+                      </a>
+                {% else %}
+                      <p class="card-text">Notes not available</p>
+                {%endif%}
+            </div>
+        </div>
+        <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5  mx-1 px-4">
+            <div class="card-body">
+                <h5 class="card-title mb-5">Download PPT</h5>
+                {% if Lesson.ppt %}
+                      <a href="{{Lesson.ppt.url}}" download>
+                      <button type="button" class="btn btn-success"><span>Get Files</span></button>
+                      </a>
+                {% else %}
+                      <p class="card-text">Notes not available</p>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+
+{% if user.profile.user_type == "teacher" %}
+    <hr />
+    <div style="text-align: center;">
+        <a href="{%url 'classes:lesson_update' subjects=Lesson.subject.slug slug=Lesson.slug %}" class=" btn btn-success mx-2 mb-1">Update</a>
+        <a href="{%url 'classes:lesson_delete' subjects=Lesson.subject.slug slug=Lesson.slug %}" class=" btn btn-danger mx-2 mb-1">Delete</a>
+    </div>
+{% endif %}
+<hr />
+<div style="color: #fff;">
+<h2>Ask Queries:</h2>
+<form method="POST">
+    <div class="form-group">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" name="form" class="btn btn-primary col-sm-5 col-lg-4 mb-1 mt-2 btn-sm" value="Add Comment">
+    </div>
+</form>
+
+{% for comment in Lesson.comments.all %}
+    <h5>{{comment.author}} <small><i>Posted on {{comment.date_added}}</i></small></h5>
+    <p>{{comment.body}}</p>
+    <div style="padding-left: 50px;">
+    {% for reply in comment.replies.all %}
+        <h5>{{reply.author}} <small><i>Replied on {{reply.date_added}}</i></small></h5>
+        <p>{{reply.reply_body}}</p>
+    {% endfor %}
+    <form method="POST">
+        <input type="hidden" name="comment.id" value="{{comment.id}}">
+        <input type="hidden" name="comment.com_name" value="{{comment.com_name}}">
+        {% csrf_token %}
+        {{form2|crispy}}
+        <input type="submit" name="form2" class="btn btn-primary col-sm-5 col-lg-4 mb-1 mt-2 btn-sm" value="Add Reply">
+    </form>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'face_detection.html' %}
+{% block title %} Attendance {% endblock %}
+{% block content %}
+<table class="table table-dark table-striped"> 
+    <thead> 
+      <tr>
+        {% if data %}   
+            {% for i in colls %} 
+                <th>{{i}}</th>
+            {% endfor %} 
+        {% endif %}
+      </tr> 
+    </thead> 
+    <tbody>   
+        <tr> 
+            <td>0</td>
+            {% for x in dataframe %} 
+                <td>{{x}}</td>
+            {% endfor %}
+        </tr> 
+    </tbody> 
+  </table>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block title %} {{Subjects.name}} {% endblock %}
+{% block content %}
+<style>
+    .bottom-link{
+        position: sticky;
+        width: 100%;
+        bottom: 0;
+        text-align: center;
+    }
+</style>
+<div class="card-views row">
+{% for lesson in Subjects.lessons.all %}
+    <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
+        <div class="card-body">
+            <h5 class="card-title mb-5">{{lesson.name}}</h5>
+            <p class="card-text">Lesson Number {{lesson.position}}</p>
+            <a href="{%url 'classes:lesson_detail' slug=lesson.slug subjects=Subjects.slug %}" class="btn btn-primary">Go to ></a>
+        </div>
+    </div>
+{%endfor%}
+</div>
+<div class="bottom-link">
+<a href="{%url 'classes:live_class' slug=Subjects.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-info">Live Class</a>
+{% if user.profile.user_type == "teacher" %}
+    <a href="{%url 'classes:lesson_create' slug=Subjects.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-success">create lesson</a>
+{% endif %}
+</div>
+{% endblock %}

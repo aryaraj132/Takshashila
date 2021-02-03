@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+{% block title %} Register {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if registed %}
+<h2>Thank you for registering</h2>
+{% else %}
+<form method="post" enctype="multipart/form-data" class="form-floating">
+    {% csrf_token %}
+    {{ user_form|crispy }}
+    {{ custom_form|crispy }}
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <input type="submit" value="Register" class="btn btn-primary mt-4">
+    </div>
+    
+</form>
+{% endif %}
+{% endblock %}

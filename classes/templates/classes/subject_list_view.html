@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block title %} Subjects {{user.profile.semester.name}} {% endblock %}
+{% block content %}
+{% if user.profile.user_type == "teacher" %}
+    <div class="card-views row">
+    {% for subject in Semesters.subject.all %}
+        <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow mb-5 mx-1" style="height:fit-content;">
+            {% if subject.image %}
+                <img src="{{subject.image.url}}" class="card-img-top"/>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title mb-5">{{subject.name}}</h5>
+                <a href="{%url 'classes:lessons_list' slug=subject.slug semesters=Semesters.slug branches=Semesters.branch.slug %}" class="btn btn-primary">Go to ></a>
+            </div>
+        </div>
+    {%endfor%}
+    </div>
+{% else %}
+    <div class="card-views row">
+    {% for sub in user.profile.semester.subject.all %}
+        <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow mb-5 mx-1" style="height:fit-content;">
+            {% if sub.image %}
+                <img src="{{sub.image.url}}" class="card-img-top" />
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title mb-5">{{sub.name}}</h5>
+                <a href="{%url 'classes:lesson_list' slug=sub.slug %}" class="btn btn-primary">Go to ></a>
+            </div>
+        </div>
+    {%endfor%}
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'face_detection.html' %}
+{% block title %} Mark Attendance {% endblock %}
+{% block content %}
+        <h1 align="center">Mark your attendance</h1>
+        <p id="message" align="right">{{message}}</p>
+        <hr />
+        <div style="text-align: center;">
+        <button id="startAttendance" class="btn1 col-sm-5 col-lg-3 btn btn-primary mx-2 mb-1">Start Attendance</button>
+        <button id="stopAttendance" class="btn2 col-sm-5 col-lg-3 btn btn-secondary mx-2 mb-1">Mark Attendance</button>
+        </div>
+        <hr />
+        <div class="row mb-2 .d-flex">
+            <div class="col-md-12 px-0">
+                <img class="imgField img-thumbnail" style="visibility:hidden;" />
+            </div>            
+        </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.btn1').click(function () {
+            $('.imgField').attr("src", "{% url 'stream' %}");
+            $('.imgField').attr("style", "visibility:visible;");
+        });
+        $('.btn2').click(function () {
+            $('.imgField').removeAttr("src");
+            $('.imgField').attr("style", "visibility:hidden;");
+            $.ajax(
+                {
+                    type: "GET",
+                    url: "{% url 'mark_atnd' %}",
+                    success: setTimeout(function (data) {
+                        $.ajax(
+                            {
+                                type: "GET",
+                                url: "{% url 'show_msg' %}",
+                                success: function (data) {
+                                    $('#message').text(data);
+                                }
+                            })
+                    },2000)
+                })
+        });
+    </script>
+{% endblock %}

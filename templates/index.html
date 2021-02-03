@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} Home {% endblock %} | TAKSHASHILA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<style>
+  h1,h2{
+    color: #fff !important;
+  }
+  body{
+    background: #000428;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #004e92, #000428);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #004e92, #000428); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  }
+  .body-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+  form{
+    color: #fff !important;
+  }
+  .content{
+    position: relative;
+    width: 100%;
+    min-height: 80vh;
+    margin-top: 50px;
+    padding: 20px 10px 20px 10px;
+  }
+  .card-views{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        flex-wrap: wrap;
+        text-align: center;
+        margin-top: 20px;
+    }
+    hr{
+        background-color: #fff;
+    }
+</style>
+</head>
+
+<body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">TAKSHASHILA</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                  </li>
+                  {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'attendance' %}">Attendance</a>
+                    </li>
+                  {% endif %}
+                  {% if user.is_superuser %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'classes:branch_list' %}">Branches</a>
+                    </li>
+                  {% elif user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'classes:subject_list' %}">Classes</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </nav>
+    <div class="container-xl">
+      <div class="content">
+        {% block content %}
+        <div class="body-content">
+          <h1 >Welcome {% if user.is_authenticated %} {{user}}
+              {% endif %}
+          </h1>
+      </div>
+        {% endblock %}
+      </div>
+    </div>
+</body>
+
+</html>
