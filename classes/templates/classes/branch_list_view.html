@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% block title %} Branches {% endblock %}
 {% block content %}
+{% if user.is_authenticated and user.profile.user_type == "teacher" %} 
 <div class="card-views row">
 {% for branch in Branches %}
     <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
@@ -11,4 +12,9 @@
     </div>
 {%endfor%}
 </div>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}

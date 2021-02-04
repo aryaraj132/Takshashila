@@ -1,6 +1,7 @@
 {% extends 'face_detection.html' %}
 {% block title %} Attendance {% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 <table class="table table-dark table-striped"> 
     <thead> 
       <tr>
@@ -20,4 +21,9 @@
         </tr> 
     </tbody> 
   </table>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}

@@ -32,5 +32,9 @@
                 });
             })
     </script>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
 {%endif%}
 {% endblock %}

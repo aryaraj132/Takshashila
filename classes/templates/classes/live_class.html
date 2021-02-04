@@ -1,103 +1,107 @@
 {% extends 'index.html' %}
 {% block title %} Live Classes {% endblock %}
 {% block content %}
-<style>
-    .share-options{
-        display: flex;
-        align-items: center;
-        position: fixed;
-        height: 10px;
-        width: 100%;
-        background: rgba(0, 0, 0, 1);
-        bottom: 0;
-        left: 0;
-        transition: height 100ms ease-in-out;
+{% if user.is_authenticated %}
+    <style>
+        .share-options{
+            display: flex;
+            align-items: center;
+            position: fixed;
+            height: 10px;
+            width: 100%;
+            background: rgba(0, 0, 0, 1);
+            bottom: 0;
+            left: 0;
+            transition: height 100ms ease-in-out;
+        }
+        .share-options:hover{
+            height: 100px;
+            transition: height 100ms ease-in-out;
+        }
+        .share-options:hover .btn1,.share-options:hover .btn4,.share-options:hover .btn2,.share-options:hover .btn5,.share-options:hover .btn3{
+            display: block;
+            visibility: visible;
+        }
+        .btn4{
+            position: absolute;
+            left: 50px;
+            visibility: hidden;
+            display: none;
+        }
+        .btn5{
+            position: absolute;
+            left: 50px;
+            visibility: hidden;
+            display: none;
+        }
+        .btn1{
+            position: absolute;
+            right: 50px;
+            visibility: hidden;
+            display: none;
+        }
+        .btn2{
+            position: absolute;
+            right: 50px;
+            visibility: hidden;
+            display: none;
+        }
+        .btn3{
+            position: absolute;
+            right: 50%;
+            border-radius: 50%;
+            visibility: hidden;
+            display: none;
+        }
     }
-    .share-options:hover{
-        height: 100px;
-        transition: height 100ms ease-in-out;
-    }
-    .share-options:hover .btn1,.share-options:hover .btn4,.share-options:hover .btn2,.share-options:hover .btn5,.share-options:hover .btn3{
-        display: block;
-        visibility: visible;
-    }
-    .btn4{
-        position: absolute;
-        left: 50px;
-        visibility: hidden;
-        display: none;
-    }
-    .btn5{
-        position: absolute;
-        left: 50px;
-        visibility: hidden;
-        display: none;
-    }
-    .btn1{
-        position: absolute;
-        right: 50px;
-        visibility: hidden;
-        display: none;
-    }
-    .btn2{
-        position: absolute;
-        right: 50px;
-        visibility: hidden;
-        display: none;
-    }
-    .btn3{
-        position: absolute;
-        right: 50%;
-        border-radius: 50%;
-        visibility: hidden;
-        display: none;
-    }
-}
-</style>
-<div class="row mb-2 .d-flex">
-    <div class="col-md-9 px-0 screenField">
-        <img class='imgField img-fluid'>
+    </style>
+    <div class="row mb-2 .d-flex">
+        <div class="col-md-9 px-0 screenField">
+            <img class='imgField img-fluid'>
+        </div>
+        <div class="col-md-3 px-0">
+            <img class='camField img-thumbnail rounded float-end'>
+        </div>
     </div>
-    <div class="col-md-3 px-0">
-        <img class='camField img-thumbnail rounded float-end'>
-    </div>
-</div>
-{% if user.profile.user_type == "teacher" %}
-    <div class="share-options sticky-bottom">
-    <a href="{% url 'classes:lesson_list' slug=Subjects.slug %}" class="btn btn-danger btn3">end</a>
-    <button class="btn4 btn btn-secondary">Start Video</button>
-    <button class="btn5 btn btn-secondary" style="visibility: hidden;">End Video</button>
-    <button class="btn1 btn btn-info">Share Screen</button>
-    <button class="btn2 btn btn-danger" style="visibility: hidden;">Stop Share</button>
-    </div>
-{% endif %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript">
-    $('.btn4').click(function(){
-        $( '.camField' ).attr("src", "{% url 'classes:cam_feed' %}");
-        $( '.camField' ).attr("style", "visibility:visible;");
-        $( '.btn4' ).attr("style", "visibility:hidden;");
-        $( '.btn5' ).attr("style", "visibility:visible;");
-});
-    $('.btn5').click(function(){
-        $( '.camField' ).removeAttr("src");
-        $( '.camField' ).attr("style", "visibility:hidden;");
-        $( '.btn4' ).attr("style", "visibility:visible;");
-        $( '.btn5' ).attr("style", "visibility:hidden;");
-});
-    $('.btn1').click(function(){
-        $( '.imgField' ).attr("src", "{% url 'classes:scrn_feed' %}");
-        $( '.imgField' ).attr("style", "visibility:visible;");
-        $( '.btn1' ).attr("style", "visibility:hidden;");
-        $( '.btn2' ).attr("style", "visibility:visible;");
-});
-    $('.btn2').click(function(){
-        $( '.imgField' ).removeAttr("src");
-        $( '.imgField' ).attr("style", "visibility:hidden;");
-        $( '.btn1' ).attr("style", "visibility:visible;");
-        $( '.btn2' ).attr("style", "visibility:hidden;");
-});
-</script>
+    {% if user.profile.user_type == "teacher" %}
+        <div class="share-options sticky-bottom">
+        <a href="{% url 'classes:lesson_list' slug=Subjects.slug %}" class="btn btn-danger btn3">end</a>
+        <button class="btn4 btn btn-secondary">Start Video</button>
+        <button class="btn5 btn btn-secondary" style="visibility: hidden;">End Video</button>
+        <button class="btn1 btn btn-info">Share Screen</button>
+        <button class="btn2 btn btn-danger" style="visibility: hidden;">Stop Share</button>
+        </div>
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.btn4').click(function(){
+            $( '.camField' ).attr("src", "{% url 'classes:cam_feed' %}");
+            $( '.camField' ).attr("style", "visibility:visible;");
+            $( '.btn4' ).attr("style", "visibility:hidden;");
+            $( '.btn5' ).attr("style", "visibility:visible;");
+    });
+        $('.btn5').click(function(){
+            $( '.camField' ).removeAttr("src");
+            $( '.camField' ).attr("style", "visibility:hidden;");
+            $( '.btn4' ).attr("style", "visibility:visible;");
+            $( '.btn5' ).attr("style", "visibility:hidden;");
+    });
+        $('.btn1').click(function(){
+            $( '.imgField' ).attr("src", "{% url 'classes:scrn_feed' %}");
+            $( '.imgField' ).attr("style", "visibility:visible;");
+            $( '.btn1' ).attr("style", "visibility:hidden;");
+            $( '.btn2' ).attr("style", "visibility:visible;");
+    });
+        $('.btn2').click(function(){
+            $( '.imgField' ).removeAttr("src");
+            $( '.imgField' ).attr("style", "visibility:hidden;");
+            $( '.btn1' ).attr("style", "visibility:visible;");
+            $( '.btn2' ).attr("style", "visibility:hidden;");
+    });
+    </script>
+{% else %}
 <script>
-
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}

@@ -2,10 +2,15 @@
 {% block title %} Create {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %} 
-
+{% if user.is_authenticated and user.profile.user_type == "teacher" %} 
 <form method="post"  enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}
     <input type="submit" name="" value="submit" class="form-control btn btn-info mt-4">
 </form>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}

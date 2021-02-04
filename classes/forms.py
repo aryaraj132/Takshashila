@@ -11,6 +11,10 @@ class AssignmentForm(forms.ModelForm):
         model = Assignment
         fields = ('assignment_id','name','position','branch','semester','file',)
    
+class SubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ('submission_id','name','ans_file',)
 
 class CommentForm(forms.ModelForm):
     class Meta:

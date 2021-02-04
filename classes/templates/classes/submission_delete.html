@@ -1,13 +1,13 @@
 {% extends 'index.html' %}
-{% block title %} Delete {{assignment.name}} {% endblock %}
+{% block title %} Delete {{submission.name}} {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% if user.is_authenticated and user.profile.user_type == "teacher" %} 
+{% if user.is_authenticated %}
     <h2>Are you sure to delete ?</h2>
     <form method="post" style="text-align: center;">
         {% csrf_token %}
         <input type="submit" name="" value="Delete" class="btn col-sm-5 col-lg-3 btn-danger mt-4">
-        <a href="{% url 'classes:assignment_detail' subject=assignment.subject.slug slug=assignment.slug %}" class="btn col-sm-5 col-lg-3 btn-info mt-4">Cancel</a>
+        <a href="{% url 'classes:assignment_detail' subject=submission.assignment.subject.slug slug=submission.assignment.slug %}" class="btn col-sm-5 col-lg-3 btn-info mt-4">Cancel</a>
     </form>
 {% else %}
 <script>

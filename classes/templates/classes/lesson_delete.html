@@ -2,10 +2,16 @@
 {% block title %} Delete {{lesson.name}} {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %} 
+{% if user.is_authenticated and user.profile.user_type == "teacher" %} 
 <h2>Are you sure to delete ?</h2>
 <form method="post" style="text-align: center;">
     {% csrf_token %}
     <input type="submit" name="" value="Delete" class="btn col-sm-5 col-lg-3 btn-danger mt-4">
     <a href="{% url 'classes:lesson_detail' subjects=lesson.subject.slug slug=lesson.slug %}" class="btn col-sm-5 col-lg-3 btn-info mt-4">Cancel</a>
 </form>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}

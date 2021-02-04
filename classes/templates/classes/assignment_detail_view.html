@@ -2,16 +2,70 @@
 {% block title %} {{assignment.name}} {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-
-<h2 align='center'>Assignment Name : {{assignment.name}}</h2>
-    <a href="{{assignment.file.url}}" download>Download the File</a>.</p>
-<hr />
-<a href="#" class="btn btn-info col-sm-5 col-lg-3">Submit Assignment</a>
-{% if user.profile.user_type == "teacher" %}
-    <hr />
-    <div style="text-align: center;">
-        <a href="{% url 'classes:assignment_update' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-success mx-2 mb-1">Update</a>
-        <a href="{% url 'classes:assignment_delete' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-danger mx-2 mb-1">Delete</a>
+{% if user.is_authenticated %}
+    <style>
+        .card-heading{
+            text-align: center;
+            line-height: 1.2rem;
+            color: #000;
+            border: 1px;
+        }
+    </style>
+    <div class="card-heading card text-dark bg-light col-lg-12 shadow p-3 mb-5 mx-1 px-4">
+        <div class="card-body">
+            <h3 class="card-title mb-5">Assignment Name : {{assignment.name}}</h3>
+            <h4 class="card-text">Assignment Number: {{assignment.position}}</h4>
+            {% if assignment.file %}
+                <a href="{{assignment.file.url}}" download>
+                    <button type="button" class="btn btn-success"><span>Get Files</span></button>
+                </a>
+            {% else %}
+                <p class="card-text">No file uploaded</p>
+            {% endif %}
+        </div>
     </div>
+    {% if user.profile.user_type == "student" %}
+        {% if submited %}
+            <div style="text-align: center;">
+                <a href="{% url 'classes:submission_update' slug=submited.slug %}" class=" btn btn-success col-sm-5 col-lg-3 mx-2 mb-1">Update Submission</a>
+                <a href="{% url 'classes:submission_delete' slug=submited.slug %}" class=" btn btn-danger col-sm-5 col-lg-3 mx-2 mb-1">Delete Submission</a>
+            </div>
+        {% else %}
+        <div class="text-center">
+            <a href="{% url 'classes:submission' slug=assignment.slug %}" class="btn btn-info col-sm-5 col-lg-3">Submit Assignment</a>
+        </div>
+        {% endif %}
+    {% endif %}
+    {% if user.profile.user_type == "teacher" %}
+        <div class="card-views row">
+            <h2 class="card-text mb-2 mt-2">Total Submissions: </h2>
+            <hr class="mb-5" />
+        {% for submissions in assignment.submission.all %}
+            <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-5">{{submissions.name}}</h5>
+                    <p class="card-text">Submitted by {{submissions.created_by.first_name}} {{submissions.created_by.last_name}}</p>
+                    <p class="card-text">Submitted at {{submissions.created_at}}</p>
+                    {% if submissions.ans_file %}
+                        <a href="{{submissions.ans_file.url}}" download>
+                            <button type="button" class="btn btn-success"><span>Get Files</span></button>
+                        </a>
+                    {% else %}
+                        <p class="card-text">No File Submitted</p>
+                    {% endif %}
+                </div>
+            </div>
+        {%endfor%}
+        </div>
+        <hr />
+        <div style="text-align: center;">
+            <a href="{% url 'classes:assignment_update' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-success col-sm-5 col-lg-3 mx-2 mb-1">Update</a>
+            <a href="{% url 'classes:assignment_delete' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-danger col-sm-5 col-lg-3 mx-2 mb-1">Delete</a>
+        </div>
+    {% endif %}
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
 {% endif %}
 {% endblock %}

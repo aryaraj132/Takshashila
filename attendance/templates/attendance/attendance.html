@@ -1,6 +1,7 @@
 {% extends 'face_detection.html' %}
 {% block title %} Mark Attendance {% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
         <h1 align="center">Mark your attendance</h1>
         <p id="message" align="right">{{message}}</p>
         <hr />
@@ -41,4 +42,9 @@
                 })
         });
     </script>
+{% else %}
+<script>
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
 {% endblock %}
