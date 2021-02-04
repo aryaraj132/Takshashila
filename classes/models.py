@@ -108,4 +108,51 @@ class Reply(models.Model):
 
     def __str__(self):
         return 'reply to' + str(self.comment_name.com_name)
+
+def assignment_files(instance,filename):
+    upload_to = 'Image/'
+    ext = filename.split(".")[-1]
+    if instance.assignment_id:
+        filename = 'assignment_files/{}/{}.{}'.format(instance.subject.slug,instance.assignment_id, ext)
+    return os.path.join(upload_to, filename)
+
+class Assignment(models.Model):
+    assignment_id = models.CharField(max_length=100,unique=True)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='assignment')
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=250)
+    position = models.PositiveSmallIntegerField(verbose_name="Assignment Number")
+    slug = models.SlugField(null=True, blank=True)
+    file = models.FileField(upload_to=assignment_files,verbose_name="Files", blank=True,null=True)
+
+    def __str__(self):
+        return self.name
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.assignment_id)
+        super().save(*args,**kwargs)
+def submission_files(instance,filename):
+    upload_to = 'Image/'
+    ext = filename.split(".")[-1]
+    if instance.submission_id:
+        filename = 'assignment_files/{}/{}/{}.{}'.format(instance.assignment.subject.slug,instance.assignment.assignment_id, instance.submission_id, ext)
+    return os.path.join(upload_to, filename)
+
+class Submission(models.Model):
+    submission_id = models.CharField(max_length=100,unique=True)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='submission')
+    created_by = models.ForeignKey(User,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(null=True, blank=True)
+    ans_file = models.FileField(upload_to=submission_files,verbose_name="Files", blank=True,null=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.submission_id)
+        super().save(*args,**kwargs)

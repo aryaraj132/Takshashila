@@ -1,10 +1,16 @@
 from django import forms
-from .models import Lesson,Comment,Reply
+from .models import Lesson,Comment,Reply,Assignment,Submission
 
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ('lesson_id','name','position','branch','semester','video','ppt','notes')
+
+class AssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ('assignment_id','name','position','branch','semester','file',)
+   
 
 class CommentForm(forms.ModelForm):
     class Meta:

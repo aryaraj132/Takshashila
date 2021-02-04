@@ -21,6 +21,7 @@
 {%endfor%}
 </div>
 <div class="bottom-link">
+<a href="{%url 'classes:assignment_list' slug=Subjects.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-info">Assignments</a>
 <a href="{%url 'classes:live_class' slug=Subjects.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-info">Live Class</a>
 {% if user.profile.user_type == "teacher" %}
     <a href="{%url 'classes:lesson_create' slug=Subjects.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-success">create lesson</a>

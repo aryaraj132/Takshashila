@@ -3,8 +3,8 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (TemplateView, DetailView, ListView, FormView,CreateView,UpdateView,DeleteView)
-from .models import Branch,Semester,Subject,Lesson
-from .forms import LessonForm,CommentForm,ReplyForm
+from .models import Branch,Semester,Subject,Lesson,Assignment,Submission
+from .forms import LessonForm,CommentForm,ReplyForm,AssignmentForm
 import os
 from win32api import GetSystemMetrics
 import numpy as np
@@ -36,6 +36,52 @@ class LessonListView(DetailView):
     context_object_name = 'Subjects'
     model = Subject
     template_name = 'classes/lesson_list_view.html'
+
+class AssignmentListView(DetailView):
+    context_object_name = 'Subject'
+    model = Subject
+    template_name = 'classes/assignment_list_view.html'
+
+class AssignmentDetailView(DetailView):
+    context_object_name = 'assignment'
+    model = Assignment
+    template_name = 'classes/assignment_detail_view.html'
+
+class AssignmentCreateView(CreateView):
+    form_class = AssignmentForm
+    context_object_name = 'Subject'
+    model = Subject
+    template_name = 'classes/lesson_create.html'
+
+    def get_success_url(self):
+        self.object = self.get_object()
+        return reverse_lazy('classes:assignment_list',kwargs={'slug' : self.object.slug})
+
+    def form_valid(self, form,*args, **kwargs):
+        self.object = self.get_object()
+        fm = form.save(commit=False)
+        fm.created_by = self.request.user
+        fm.subject = self.object
+        fm.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+class AssignmentUpdateView(UpdateView):
+    fields = ('name','position','file')
+    model = Assignment
+    template_name = 'classes/assignment_update.html'
+    context_object_name = 'assignment'
+
+    def get_success_url(self):
+        return reverse_lazy("classes:assignment_detail", kwargs={"subject": self.object.subject.slug,"slug":self.object.slug})
+
+class AssignmentDeleteView(DeleteView):
+    model = Assignment
+    template_name = 'classes/assignment_delete.html'
+    context_object_name = 'assignment'
+
+    def get_success_url(self):
+        return reverse_lazy("classes:assignment_list", kwargs={"slug": self.object.subject.slug})
+
 
 class LessonDetailView(DetailView, FormView):
     context_object_name = 'Lesson'
@@ -113,6 +159,7 @@ class LessonUpdateView(UpdateView):
     model = Lesson
     template_name = 'classes/lesson_update.html'
     context_object_name = 'lesson'
+
 
 class LessonDeleteView(DeleteView):
     model = Lesson

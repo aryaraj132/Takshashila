@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block title %} Update {{assignment.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %} 
+
+<form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <div style="text-align: center;">
+    <input type="submit" name="" value="submit" class="btn col-sm-5 col-lg-3 mb-1 btn-info mt-4" >
+    <a href="{% url 'classes:assignment_detail' subject=assignment.subject.slug slug=assignment.slug %}" class="btn col-sm-5 col-lg-3 mb-1 btn-danger mt-4">Cancel</a>
+    </div>
+</form>
+{% endblock %}

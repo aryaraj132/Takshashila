@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% block title %} {{assignment.name}} {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h2 align='center'>Assignment Name : {{assignment.name}}</h2>
+    <a href="{{assignment.file.url}}" download>Download the File</a>.</p>
+<hr />
+<a href="#" class="btn btn-info col-sm-5 col-lg-3">Submit Assignment</a>
+{% if user.profile.user_type == "teacher" %}
+    <hr />
+    <div style="text-align: center;">
+        <a href="{% url 'classes:assignment_update' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-success mx-2 mb-1">Update</a>
+        <a href="{% url 'classes:assignment_delete' subject=assignment.subject.slug slug=assignment.slug %}" class=" btn btn-danger mx-2 mb-1">Delete</a>
+    </div>
+{% endif %}
+{% endblock %}
