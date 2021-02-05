@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title mb-5">{{assignment.name}}</h5>
                 <p class="card-text">Assignment Number {{assignment.position}}</p>
-                <a href="{% url 'classes:assignment_detail' subject=Subject.slug slug=assignment.slug %}" class="btn btn-primary">Go to ></a>
+                <a href="{% url 'classes:assignment_detail' subject=Subject.slug slug=assignment.slug %}" class="btn btn-primary">Show Assignment</a>
             </div>
         </div>
     {%endfor%}

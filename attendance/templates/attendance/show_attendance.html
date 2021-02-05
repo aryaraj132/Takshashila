@@ -2,25 +2,31 @@
 {% block title %} Attendance {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-<table class="table table-dark table-striped"> 
-    <thead> 
-      <tr>
+<div style="display: flex;flex-direction: row;flex-wrap: nowrap;">
+<table class="table table-dark table-striped" style="width: 50%;"> 
+    <tbody> 
+      
         {% if data %}   
-            {% for i in colls %} 
+            {% for i in colls %}
+            <tr> 
                 <th>{{i}}</th>
+            </tr>
             {% endfor %} 
         {% endif %}
-      </tr> 
-    </thead> 
-    <tbody>   
-        <tr> 
-            <td>0</td>
-            {% for x in dataframe %} 
+    </tbody>
+</table>
+<table class="table table-dark table-striped" style="width: 50%;border-left: 1px solid rgba(255, 255, 255, 0.4);"> 
+    <tbody> 
+        <tr>   
+            <td>1</td> </tr>
+            {% for x in dataframe %}
+            <tr> 
                 <td>{{x}}</td>
+            </tr>
             {% endfor %}
-        </tr> 
     </tbody> 
   </table>
+</div>
 {% else %}
 <script>
     window.location.replace("{% url 'index' %}");

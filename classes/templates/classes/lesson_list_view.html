@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title mb-5">{{lesson.name}}</h5>
                 <p class="card-text">Lesson Number {{lesson.position}}</p>
-                <a href="{%url 'classes:lesson_detail' slug=lesson.slug subjects=Subjects.slug %}" class="btn btn-primary">Go to ></a>
+                <a href="{%url 'classes:lesson_detail' slug=lesson.slug subjects=Subjects.slug %}" class="btn btn-primary">Show Lectures</a>
             </div>
         </div>
     {%endfor%}

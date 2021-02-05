@@ -58,11 +58,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'attendance' %}">Attendance</a>
                     </li>
-                    {% if user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dataset' %}">Add Dataset</a>
                     </li>
-                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'show_attendance' %}">Show Attendance</a>
                     </li>

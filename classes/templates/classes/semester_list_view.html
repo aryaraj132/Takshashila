@@ -7,7 +7,7 @@
     <div class="card text-center text-dark bg-light col-md-3 col-sm-5 shadow p-3 mb-5 mx-1 px-4">
         <div class="card-body">
             <h5 class="card-title mb-5">{{semester.name}}</h5>
-            <a href="{% url 'classes:subjects_list' slug=semester.slug branches=Branches.slug %}" class="btn btn-primary">Go to ></a>
+            <a href="{% url 'classes:subjects_list' slug=semester.slug branches=Branches.slug %}" class="btn btn-primary">Show Subjects</a>
         </div>
     </div>
 {%endfor%}
