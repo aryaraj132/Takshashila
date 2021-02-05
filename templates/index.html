@@ -94,7 +94,7 @@
       <div class="content">
         {% block content %}
         <div class="body-content">
-          <h1 >Welcome {% if user.is_authenticated %} {{user}}
+          <h1 >Welcome {% if user.is_authenticated %} {{user.first_name}} {{user.last_name}}
               {% endif %}
           </h1>
       </div>
