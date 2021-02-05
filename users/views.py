@@ -4,14 +4,7 @@ from django.urls import reverse
 from users.forms import UserForm, CustomUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-import os
-from datetime import datetime
-import numpy as np
-import cv2
-from PIL import Image
-import pandas as pd
-import threading
-from functools import partial
+
 # Create your views here.
 
 
