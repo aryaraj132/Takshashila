@@ -30,6 +30,7 @@
     </div>
 {% else %}
 <script>
+    alert("You are not authorised")
     window.location.replace("{% url 'index' %}");
 </script>
 {% endif %}
