@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'users',
     'classes',
     'attendance',
-    'django_rename_app',
     'crispy_forms',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
