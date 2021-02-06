@@ -3,8 +3,8 @@ django-crispy-forms==1.10.0
 django-pandas==0.6.2
 mss==6.1.0
 numpy
-opencv-contrib-python==4.5.1.48
-opencv-python
+opencv-contrib-python-headless
+opencv-python-headless==4.2.0.32
 ffmpeg
 pandas
 Pillow
