@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% block title %} Submit Assignment {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %} 
+{% if user.is_authenticated %} 
+<form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" name="" value="submit" class="form-control btn btn-info mt-4">
+</form>
+{% else %}
+<script>
+    alert("You are not authorised")
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
+{% endblock %}

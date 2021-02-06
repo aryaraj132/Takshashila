@@ -95,7 +95,7 @@ class SubmissionCreateView(CreateView):
     form_class = SubmissionForm
     context_object_name = 'assignment'
     model = Assignment
-    template_name = 'classes/lesson_create.html'
+    template_name = 'classes/submission_create.html'
 
     def get_success_url(self):
         self.object = self.get_object()
