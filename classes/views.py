@@ -6,7 +6,6 @@ from django.views.generic import (TemplateView, DetailView, ListView, FormView,C
 from .models import Branch,Semester,Subject,Lesson,Assignment,Submission
 from .forms import LessonForm,CommentForm,ReplyForm,AssignmentForm,SubmissionForm
 import os
-from win32api import GetSystemMetrics
 import numpy as np
 import cv2
 from mss import mss
@@ -223,7 +222,7 @@ def ScreenFeed(request):
     return StreamingHttpResponse(shareScreen(),content_type='multipart/x-mixed-replace; boundary=frame')
 
 def shareScreen():
-    mon = {'top': 0, 'left': 0, 'width': int(GetSystemMetrics(0)*1.25), 'height': int(GetSystemMetrics(1)*1.25)}
+    mon = {'top': 0, 'left': 0, 'width': int(1920), 'height': int(1080)}
     with mss() as sct:
         while True:
             img = sct.grab(mon)
