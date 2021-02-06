@@ -8,5 +8,6 @@ opencv-python-headless==4.2.0.32
 ffmpeg
 pandas
 Pillow
+win32api
 gunicorn
 django-heroku
