@@ -216,36 +216,3 @@ class liveClass(DetailView):
     context_object_name = 'Subjects'
     model = Subject
     template_name = 'classes/live_class.html'
-
-
-def ScreenFeed(request):
-    return StreamingHttpResponse(shareScreen(),content_type='multipart/x-mixed-replace; boundary=frame')
-
-def shareScreen():
-    mon = {'top': 0, 'left': 0, 'width': int(1920), 'height': int(1080)}
-    with mss() as sct:
-        while True:
-            img = sct.grab(mon)
-            ret, image = cv2.imencode('.jpg',np.array(img))
-            yield (b'--frame\r\n'
-                    b'Content-Type:image/jpeg\r\n\r\n'+image.tobytes()+b'\r\n\r\n')
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                cv2.destroyAllWindows()
-                break
-
-def CamFeed(request):
-    return StreamingHttpResponse(shareCamera(),content_type='multipart/x-mixed-replace; boundary=frame')
-
-def shareCamera():
-    camera = cv2.VideoCapture(0)
-    camera.set(3, 1920)
-    camera.set(4, 1080)
-    while True:
-        rtrn, frame=camera.read()
-        cv2.imshow('camera', frame)
-        ret, image = cv2.imencode('.jpg',frame)
-        yield (b'--frame\r\n'
-                b'Content-Type:image/jpeg\r\n\r\n'+image.tobytes()+b'\r\n\r\n')
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            cv2.destroyAllWindows()
-            break

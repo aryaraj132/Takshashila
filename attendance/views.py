@@ -10,8 +10,11 @@ from PIL import Image
 import pandas as pd
 import threading
 from functools import partial
-import json 
+import json
 # Create your views here.
+
+def test(request):
+    return render(request,'attendance/test.html')
 
 def index(request):
     return render(request,'attendance/attendance.html')

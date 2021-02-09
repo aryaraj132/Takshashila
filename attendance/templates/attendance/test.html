@@ -1,0 +1,45 @@
+{% extends 'face_detection.html' %}
+{% block title %} Test Attendance {% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+
+        <div style="text-align: center;">
+        <button id="startAttendance" class="btn1 col-sm-5 col-lg-3 btn btn-primary mx-2 mb-1">Start Attendance</button>
+        <button id="stopAttendance" class="btn2 col-sm-5 col-lg-3 btn btn-secondary mx-2 mb-1">Mark Attendance</button>
+        </div>
+        <video id="vid" autoplay></video>
+        <canvas id="can"></canvas>
+        <hr />
+        <div class="row mb-2 .d-flex">
+            <div class="col-md-12 px-0">
+                <img class="imgField img-thumbnail" style="visibility:hidden;" />
+            </div>            
+        </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.btn1').click(function () {
+            let vid = document.getElementById("vid")
+            if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
+                .then(function (stream) {
+                    vid.srcObject = stream;
+                })
+                .catch(function (err0r) {
+                console.log("Something went wrong!");
+                });
+            }
+                const cnv = document.getElementById('can'),
+                ctx = cnv.getContext('2d');
+                ctx.drawImage(vid,50,50);
+        });
+        $('.btn2').click(function () {
+            
+        });
+    </script>
+{% else %}
+<script>
+    alert("You are not authorised")
+    window.location.replace("{% url 'index' %}");
+</script>
+{% endif %}
+{% endblock %}
