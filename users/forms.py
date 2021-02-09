@@ -14,12 +14,7 @@ class UserForm(UserCreationForm):
         }
 
 class CustomUserForm(forms.ModelForm):
-    # teacher = 'teacher'
-    # student = 'student'
-    # user_types = [
-    #     (student,'student')
-    # ]
-    # user_type = forms.CharField(choices = user_types,required=True)
+
     class Meta():
         model = profile
         fields = ('branch','dp','semester')

@@ -111,7 +111,7 @@
                       <a class="nav-link" href="{% url 'attendance' %}">Attendance</a>
                     </li>
                   {% endif %}
-                  {% if user.is_superuser %}
+                  {% if user.profile.user_type == "teacher" %}
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'classes:branch_list' %}">Branches</a>
                     </li>
