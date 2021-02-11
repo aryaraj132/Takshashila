@@ -50,11 +50,10 @@ class Subject(models.Model):
         super().save(*args,**kwargs)
 
 def lesson_files(instance,filename):
-    upload_to = 'Image/'
     ext = filename.split(".")[-1]
     if instance.lesson_id:
         filename = 'Lesson_files/{}/{}.{}'.format(instance.subject.slug,instance.lesson_id, ext)
-    return os.path.join(upload_to, filename)
+    return filename
 
 class Lesson(models.Model):
     lesson_id = models.CharField(max_length=100,unique=True)
@@ -110,11 +109,10 @@ class Reply(models.Model):
         return 'reply to' + str(self.comment_name.com_name)
 
 def assignment_files(instance,filename):
-    upload_to = 'Image/'
     ext = filename.split(".")[-1]
     if instance.assignment_id:
         filename = 'assignment_files/{}/{}.{}'.format(instance.subject.slug,instance.assignment_id, ext)
-    return os.path.join(upload_to, filename)
+    return filename
 
 class Assignment(models.Model):
     assignment_id = models.CharField(max_length=100,unique=True)
@@ -135,11 +133,10 @@ class Assignment(models.Model):
         self.slug = slugify(self.assignment_id)
         super().save(*args,**kwargs)
 def submission_files(instance,filename):
-    upload_to = 'Image/'
     ext = filename.split(".")[-1]
     if instance.submission_id:
         filename = 'assignment_files/{}/{}/{}.{}'.format(instance.assignment.subject.slug,instance.assignment.assignment_id, instance.submission_id, ext)
-    return os.path.join(upload_to, filename)
+    return filename
 
 class Submission(models.Model):
     submission_id = models.CharField(max_length=100,unique=True)

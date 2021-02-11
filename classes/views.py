@@ -41,6 +41,7 @@ class AssignmentListView(DetailView):
     model = Subject
     template_name = 'classes/assignment_list_view.html'
 
+
 class AssignmentDetailView(DetailView):
     context_object_name = 'assignment'
     model = Assignment

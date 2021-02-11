@@ -8,7 +8,6 @@
         <button id="stopAttendance" class="btn2 col-sm-5 col-lg-3 btn btn-secondary mx-2 mb-1">Mark Attendance</button>
         </div>
         <video id="vid" autoplay></video>
-        <canvas id="can"></canvas>
         <hr />
         <div class="row mb-2 .d-flex">
             <div class="col-md-12 px-0">
@@ -20,17 +19,14 @@
         $('.btn1').click(function () {
             let vid = document.getElementById("vid")
             if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true,audio: true })
+            navigator.mediaDevices.getUserMedia({ video: true,audio: false })
                 .then(function (stream) {
                     vid.srcObject = stream;
                 })
                 .catch(function (err0r) {
-                console.log("Something went wrong!");
+                console.log("Something went wrong!", err0r);
                 });
             }
-                const cnv = document.getElementById('can'),
-                ctx = cnv.getContext('2d');
-                ctx.drawImage(vid,50,50);
         });
         $('.btn2').click(function () {
             
