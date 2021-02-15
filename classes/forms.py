@@ -9,12 +9,15 @@ class LessonForm(forms.ModelForm):
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ('assignment_id','name','position','branch','semester','file',)
+        fields = ('assignment_id','name','description','position','branch','semester','last_date','file')
+        widgets = {
+            'last_date':forms.DateInput(attrs={'type': 'date'}),
+        }
    
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
-        fields = ('submission_id','name','ans_file',)
+        fields = ('submission_id','name','description','ans_file')
 
 class CommentForm(forms.ModelForm):
     class Meta:

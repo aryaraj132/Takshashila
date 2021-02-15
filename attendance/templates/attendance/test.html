@@ -7,15 +7,44 @@
         <button id="startAttendance" class="btn1 col-sm-5 col-lg-3 btn btn-primary mx-2 mb-1">Start Attendance</button>
         <button id="stopAttendance" class="btn2 col-sm-5 col-lg-3 btn btn-secondary mx-2 mb-1">Mark Attendance</button>
         </div>
-        <video id="vid" autoplay></video>
+        <video class="render"> </video>
+        <video id="vid" autoplay style="border: 1px solid black;"></video>
         <hr />
         <div class="row mb-2 .d-flex">
             <div class="col-md-12 px-0">
                 <img class="imgField img-thumbnail" style="visibility:hidden;" />
             </div>            
         </div>
+<script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
+    var socket = new WebSocket('ws://localhost:8001/websocket');
+    var reader = new FileReader();
+    socket.onmessage = function (e) {
+        document.querySelector('.render').src = e.data;
+    };
+    var mediaConstraints = {
+        video: true
+    };
+
+    navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+
+    function onMediaSuccess(stream) {
+        var multiStreamRecorder = new MultiStreamRecorder(stream);
+        multiStreamRecorder.ondataavailable = function(blob) {
+            // POST/PUT "Blob" using FormData/XHR2
+            reader.readAsDataURL(blob); 
+            reader.onloadend = function() {
+                var base64data = reader.result;           
+                socket.send(base64data)
+            }
+        };
+        multiStreamRecorder.start(700);
+    }
+
+    function onMediaError(e) {
+        console.error('media error', e);
+    }
         $('.btn1').click(function () {
             let vid = document.getElementById("vid")
             if (navigator.mediaDevices.getUserMedia) {

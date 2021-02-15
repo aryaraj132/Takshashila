@@ -121,7 +121,9 @@ class Assignment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='assignment')
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    last_date = models.DateField(auto_now_add=False, blank=True,null=True)
     name = models.CharField(max_length=250)
+    description = models.CharField(max_length=500,blank=True)
     position = models.PositiveSmallIntegerField(verbose_name="Assignment Number")
     slug = models.SlugField(null=True, blank=True)
     file = models.FileField(upload_to=assignment_files,verbose_name="Files", blank=True,null=True)
@@ -144,6 +146,7 @@ class Submission(models.Model):
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=250)
+    description = models.CharField(max_length=500,blank=True)
     slug = models.SlugField(null=True, blank=True)
     ans_file = models.FileField(upload_to=submission_files,verbose_name="Files", blank=True,null=True)
 

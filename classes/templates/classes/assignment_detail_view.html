@@ -16,6 +16,12 @@
         <div class="card-body">
             <h3 class="card-title mb-5">Assignment Name : {{assignment.name}}</h3>
             <h4 class="card-text">Assignment Number: {{assignment.position}}</h4>
+            {% if assignment.last_date %}
+            <h4 class="card-text" align="right">Last Date: {{assignment.last_date}}</h4>
+            {% endif %}
+            {% if assignment.description %}
+            <p class="card-text"><b>Description: </b><br/> {{assignment.description}}</p>
+            {% endif %}
             {% if assignment.file %}
                 <a href="{{assignment.file.url}}" download>
                     <button type="button" class="btn btn-success"><span>Get Files</span></button>
@@ -47,6 +53,9 @@
                     <h5 class="card-title mb-5">{{submissions.name}}</h5>
                     <p class="card-text">Submitted by {{submissions.created_by.first_name}} {{submissions.created_by.last_name}}</p>
                     <p class="card-text">Submitted at {{submissions.created_at}}</p>
+                    {% if submissions.description %}
+                    <p class="card-text"><b>Description: </b><br /> {{submissions.description}}</p>
+                    {% endif %}
                     {% if submissions.ans_file %}
                         <a href="{{submissions.ans_file.url}}" download>
                             <button type="button" class="btn btn-success"><span>Get Files</span></button>

@@ -110,7 +110,7 @@ class SubmissionCreateView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 class AssignmentUpdateView(UpdateView):
-    fields = ('name','position','file')
+    form_class = AssignmentForm
     model = Assignment
     template_name = 'classes/assignment_update.html'
     context_object_name = 'assignment'
