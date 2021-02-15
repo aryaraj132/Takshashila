@@ -1,9 +1,19 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content='text/hftml;charset=UTF-8' http-equiv='Content-Type'/>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'/>
+    <meta content='Takshashila' property='og:site_name'/>
+    <meta name="author" content="Aryan Raj">
+    <meta content='This project aims to put together different technology used in online education to build one standalone platform which includes Face Recognition Attendance, Live Classes , Class-Subject based Learning Environment facilitating Video lectures, notes or ppt provides by teacher being kept organized and stored for reusability, along with enabling teachers to assign assignments to students.' name='description' />
+    <meta property="og:title" content="Takshashila"/>
+    <meta property="og:image" content="{% static 'preview.jpg' %}"/>
+    <meta property="og:description" content="This project aims to put together different technology used in online education to build one standalone platform which includes Face Recognition Attendance, Live Classes , Class-Subject based Learning Environment facilitating Video lectures, notes or ppt provides by teacher being kept organized and stored for reusability, along with enabling teachers to assign assignments to students."/>
+    <meta property="og:url" content="https://takshashila.herokuapp.com/"/>
+    
     <title>{% block title %} Home {% endblock %} | TAKSHASHILA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     
