@@ -195,6 +195,8 @@ class LessonCreateView(CreateView):
         fm = form.save(commit=False)
         fm.created_by = self.request.user
         fm.subject = self.object
+        fm.branch = self.object.branch
+        fm.semester = self.object.semester
         fm.save()
         return HttpResponseRedirect(self.get_success_url())
 

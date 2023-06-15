@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
@@ -13,18 +14,23 @@ class Branch(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         super().save(*args,**kwargs)
 
 class Semester(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     slug = models.SlugField(null=True, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='semester')
     def __str__(self):
-        return self.name
+        return self.name + "_" + self.branch.name
+    
+    class Meta:
+        unique_together = ('name', 'branch',)
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         super().save(*args,**kwargs)
 
 def subject_image(instance,filename):
@@ -35,6 +41,7 @@ def subject_image(instance,filename):
     return os.path.join(upload_to, filename)
 
 class Subject(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     subject_id = models.CharField(max_length=100,unique=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(null=True, blank=True)
@@ -43,7 +50,7 @@ class Subject(models.Model):
     image = models.ImageField(upload_to=subject_image,blank=True,verbose_name='Subject Image')
 
     def __str__(self):
-        return self.name
+        return self.subject_id
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.subject_id)
@@ -56,7 +63,7 @@ def lesson_files(instance,filename):
     return filename
 
 class Lesson(models.Model):
-    lesson_id = models.CharField(max_length=100,unique=True)
+    lesson_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='lessons')
@@ -76,7 +83,7 @@ class Lesson(models.Model):
         return self.name
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name+"-"+str(self.semester.slug))
         super().save(*args,**kwargs)
 
     def get_absolute_url(self):
